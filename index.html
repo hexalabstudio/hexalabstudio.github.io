@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<!--
+=============================================================
+  GUÍA HTML & CSS - 2º SMR
+=============================================================
+  Haz clic en cualquier palabra del código para ver qué hace.
+=============================================================
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guía HTML y CSS</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    header {
+      background: #1a1a2e;
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+      border-bottom: 4px solid #e94560;
+    }
+    header h1 { font-size: 2.4rem; letter-spacing: -1px; }
+    header p  { color: #aaa; margin-top: 8px; font-size: 15px; }
+
+    .hint-bar {
+      background: #fff3cd;
+      border-bottom: 2px solid #ffc107;
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+      color: #856404;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 20px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+    }
+
+    .seccion {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.07);
+      border-left: 5px solid #e94560;
+    }
+    .seccion h2 {
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+      color: #e94560;
+    }
+    .seccion .descripcion {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #eee;
+    }
+
+    pre {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 8px;
+      padding: 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 13.5px;
+      line-height: 2;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    pre::after {
+      content: '👆 Haz clic en cualquier elemento';
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 11px;
+      color: #555;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .tag  { color: #f38ba8; }
+    .atr  { color: #89dceb; }
+    .val  { color: #a6e3a1; }
+    .com  { color: #6c7086; font-style: italic; }
+    .prp  { color: #89b4fa; }
+    .sel  { color: #cba6f7; }
+    .txt  { color: #cdd6f4; }
+
+    [data-tip] {
+      cursor: pointer;
+      border-radius: 3px;
+      transition: background .15s;
+      outline: 1px solid transparent;
+    }
+    [data-tip]:hover {
+      outline: 1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.08);
+    }
+
+    .resultado {
+      background: #fafafa;
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 4px;
+    }
+    .resultado-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .nota {
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 13.5px;
+      color: #5d4037;
+      margin-top: 14px;
+    }
+    .nota strong { color: #e65100; }
+
+    .indice {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.07);
+      border-left: 5px solid #1a1a2e;
+    }
+    .indice h2 { font-size: 1.1rem; margin-bottom: 16px; }
+    .indice ol { padding-left: 22px; }
+    .indice li { margin-bottom: 8px; }
+    .indice a  { color: #e94560; font-size: 14px; text-decoration: none; }
+    .indice a:hover { text-decoration: underline; }
+
+    /* POPUP */
+    #popup-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+    }
+    #popup {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.22);
+      max-width: 380px;
+      width: 90vw;
+      border: 2px solid #e94560;
+      animation: popIn .18s cubic-bezier(.4,0,.2,1);
+      overflow: hidden;
+    }
+    @keyframes popIn {
+      from { opacity:0; transform: scale(.92) translateY(6px); }
+      to   { opacity:1; transform: scale(1)  translateY(0); }
+    }
+    #popup-header {
+      background: #1a1a2e;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    #popup-token {
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      font-weight: bold;
+      color: #f38ba8;
+      flex: 1;
+      word-break: break-all;
+    }
+    #popup-type {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .type-tag  { background: rgba(243,139,168,.15); color: #f38ba8; border: 1px solid rgba(243,139,168,.3); }
+    .type-atr  { background: rgba(137,220,235,.15); color: #89dceb; border: 1px solid rgba(137,220,235,.3); }
+    .type-val  { background: rgba(166,227,161,.15); color: #a6e3a1; border: 1px solid rgba(166,227,161,.3); }
+    .type-prp  { background: rgba(137,180,250,.15); color: #89b4fa; border: 1px solid rgba(137,180,250,.3); }
+    .type-sel  { background: rgba(203,166,247,.15); color: #cba6f7; border: 1px solid rgba(203,166,247,.3); }
+    .type-com  { background: rgba(108,112,134,.15); color: #888;    border: 1px solid rgba(108,112,134,.3); }
+    .type-txt  { background: rgba(205,214,244,.15); color: #cdd6f4; border: 1px solid rgba(205,214,244,.3); }
+
+    #popup-close {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 0 0 8px;
+      flex-shrink: 0;
+    }
+    #popup-close:hover { color: white; }
+
+    #popup-body { padding: 18px 20px 20px; }
+    #popup-desc {
+      font-size: 14.5px;
+      color: #333;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    #popup-example {
+      background: #f5f5f5;
+      border-radius: 7px;
+      padding: 10px 14px;
+      font-family: 'Courier New', monospace;
+      font-size: 12.5px;
+      color: #444;
+      border-left: 3px solid #e94560;
+      display: none;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .demo-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    .demo-table th { background: #1a1a2e; color: white; padding: 10px 16px; text-align: left; }
+    .demo-table td { padding: 9px 16px; border-bottom: 1px solid #eee; }
+    .demo-table tr:nth-child(even) td { background: #f9f9f9; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Guía HTML y CSS</h1>
+  <p>Teoría + ejemplos interactivos para SMR</p>
+</header>
+
+<div class="hint-bar">
+  👆 <strong>Haz clic en cualquier palabra del código</strong> para ver qué hace
+</div>
+
+<main>
+
+  <nav class="indice">
+    <h2>Índice de contenidos</h2>
+    <ol>
+      <li><a href="#estructura">Estructura de un HTML</a></li>
+      <li><a href="#css-tipos">CSS: Externo, Interno e Inline</a></li>
+      <li><a href="#headings">Títulos H1 a H6</a></li>
+      <li><a href="#parrafos">Párrafos y texto</a></li>
+      <li><a href="#enlaces">Enlaces</a></li>
+      <li><a href="#botones">Botones</a></li>
+      <li><a href="#imagenes">Imágenes</a></li>
+      <li><a href="#listas">Listas</a></li>
+      <li><a href="#tablas">Tablas</a></li>
+      <li><a href="#formularios">Formularios</a></li>
+      <li><a href="#clases-ids">Clases e IDs</a></li>
+      <li><a href="#div-span">Div y Span</a></li>
+    </ol>
+  </nav>
+
+
+  <!-- 1. ESTRUCTURA -->
+  <section id="estructura" class="seccion">
+    <h2>1. Estructura de un archivo HTML</h2>
+    <p class="descripcion">
+      Todo documento HTML tiene el mismo esqueleto. El navegador lo lee de arriba a abajo.
+      &lt;head&gt; contiene información de la página (no visible). &lt;body&gt; contiene todo lo que el usuario VE.
+    </p>
+    <pre><span class="com" data-tip="com|&lt;!-- comentario --&gt;|Un comentario en HTML. El navegador lo ignora completamente. Sirve para dejar notas en el código. No se muestra en la página.|&lt;!-- Esto es un comentario --&gt;">&lt;!-- Indica que este archivo es HTML5 --&gt;</span>
+<span class="tag" data-tip="tag|&lt;!DOCTYPE html&gt;|Declaración obligatoria que va SIEMPRE en la primera línea. Le dice al navegador que este archivo usa HTML5. Sin ella el navegador puede interpretar mal la página.">&lt;!DOCTYPE html&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;html&gt;|Etiqueta raíz que envuelve TODO el documento HTML. Todo el contenido de la página va dentro de ella.">&lt;html</span> <span class="atr" data-tip="atr|lang|Indica el idioma de la página. Importante para lectores de pantalla y buscadores. 'es' = español, 'en' = inglés.|lang=&quot;es&quot;">lang</span>=<span class="val" data-tip="val|&quot;es&quot;|Valor del atributo lang. 'es' significa español. Los buscadores y el navegador usan esto para saber en qué idioma está la página.">"es"</span><span class="tag" data-tip="tag|&gt;|Cierre del ángulo de apertura de la etiqueta html.">&gt;</span>
+
+  <span class="tag" data-tip="tag|&lt;head&gt;|Sección de configuración de la página. El usuario NO ve su contenido. Aquí van: título de la pestaña, estilos CSS, scripts, codificación de caracteres, etc.">&lt;head&gt;</span>
+    <span class="tag" data-tip="tag|&lt;meta&gt;|Etiqueta de metadatos. Da información sobre la página al navegador y buscadores. No tiene etiqueta de cierre.">&lt;meta</span> <span class="atr" data-tip="atr|charset|Define la codificación de caracteres del documento. Fundamental para que se muestren bien tildes, eñes y caracteres especiales.|charset=&quot;UTF-8&quot;">charset</span>=<span class="val" data-tip="val|&quot;UTF-8&quot;|Codificación universal. UTF-8 soporta prácticamente todos los idiomas del mundo, incluido el español con tildes y eñes. SIEMPRE usa UTF-8.">"UTF-8"</span><span class="tag" data-tip="tag|/&gt;|Cierre de etiqueta automática. Etiquetas como &lt;meta&gt;, &lt;img&gt;, &lt;br&gt; no tienen contenido dentro y se cierran así.">/&gt;</span>
+    <span class="tag" data-tip="tag|&lt;title&gt;|Define el título de la página que aparece en la pestaña del navegador y en los resultados de Google. Muy importante para el SEO.">&lt;title&gt;</span><span class="txt" data-tip="txt|Mi página|El texto que aparecerá en la pestaña del navegador. Pon un nombre descriptivo.">Mi página</span><span class="tag" data-tip="tag|&lt;/title&gt;|Cierra la etiqueta title. Todo lo que esté entre &lt;title&gt; y &lt;/title&gt; es el título de la pestaña.">&lt;/title&gt;</span>
+    <span class="tag" data-tip="tag|&lt;link&gt;|Enlaza un recurso externo con la página. Normalmente se usa para cargar archivos CSS externos. No tiene etiqueta de cierre.">&lt;link</span> <span class="atr" data-tip="atr|rel|Indica la relación entre el HTML y el archivo enlazado. El valor 'stylesheet' le dice al navegador que es una hoja de estilos CSS.|rel=&quot;stylesheet&quot;">rel</span>=<span class="val" data-tip="val|&quot;stylesheet&quot;|Significa 'hoja de estilos'. Indica al navegador que el archivo enlazado contiene CSS que debe aplicar a la página.">"stylesheet"</span> <span class="atr" data-tip="atr|href|Contiene la ruta o URL del archivo a enlazar. En &lt;link&gt; apunta al archivo CSS. En &lt;a&gt; apunta a la página de destino.|href=&quot;estilos.css&quot;">href</span>=<span class="val" data-tip="val|&quot;estilos.css&quot;|Ruta al archivo CSS externo. Puede ser relativa (mismo proyecto) o absoluta (URL completa). Si está en una carpeta: 'css/estilos.css'.">"estilos.css"</span><span class="tag" data-tip="tag|/&gt;|Cierre de etiqueta automática de &lt;link&gt;.">/&gt;</span>
+  <span class="tag" data-tip="tag|&lt;/head&gt;|Cierra la sección head. Todo lo que configuraste para la página queda encerrado aquí.">&lt;/head&gt;</span>
+
+  <span class="tag" data-tip="tag|&lt;body&gt;|Contiene TODO el contenido visible de la página: textos, imágenes, botones, tablas, formularios, etc. Solo puede haber UN &lt;body&gt; por página.">&lt;body&gt;</span>
+    <span class="tag" data-tip="tag|&lt;h1&gt;|Título principal de la página. El más grande e importante. Solo debe haber UNO por página (buena práctica para SEO).">&lt;h1&gt;</span><span class="txt" data-tip="txt|¡Hola mundo!|Texto visible dentro del h1. Es el contenido que verá el usuario.">¡Hola mundo!</span><span class="tag" data-tip="tag|&lt;/h1&gt;|Cierra el título h1. Toda etiqueta que se abre debe cerrarse.">&lt;/h1&gt;</span>
+    <span class="tag" data-tip="tag|&lt;p&gt;|Etiqueta de párrafo. Agrupa un bloque de texto. El navegador añade espacio arriba y abajo automáticamente.">&lt;p&gt;</span><span class="txt" data-tip="txt|Mi primer párrafo.|El texto visible del párrafo. Puede contener otras etiquetas dentro como &lt;strong&gt;, &lt;em&gt;, &lt;a&gt;, etc.">Mi primer párrafo.</span><span class="tag" data-tip="tag|&lt;/p&gt;|Cierra el párrafo. Todo el texto entre &lt;p&gt; y &lt;/p&gt; forma un párrafo.">&lt;/p&gt;</span>
+  <span class="tag" data-tip="tag|&lt;/body&gt;|Cierra la sección body. Todo el contenido visible debe estar entre &lt;body&gt; y &lt;/body&gt;.">&lt;/body&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;/html&gt;|Cierra el documento HTML. Debe ser siempre la última etiqueta del archivo.">&lt;/html&gt;</span></pre>
+    <div class="nota">
+      <strong>Importante:</strong> Todas las etiquetas abiertas deben cerrarse.
+      Ejemplo: &lt;p&gt; se cierra con &lt;/p&gt;.
+      Las etiquetas vacías como &lt;img&gt;, &lt;br&gt;, &lt;meta&gt; no tienen cierre.
+    </div>
+  </section>
+
+
+  <!-- 2. CSS TIPOS -->
+  <section id="css-tipos" class="seccion">
+    <h2>2. CSS: Externo, Interno e Inline</h2>
+    <p class="descripcion">
+      CSS es el lenguaje que da color, tamaño y posición a los elementos HTML.
+      Hay 3 formas de añadirlo. Prioridad: Inline &gt; Interno &gt; Externo.
+    </p>
+
+    <strong>1 — CSS EXTERNO (el más recomendado)</strong><br><br>
+    <pre><span class="com" data-tip="com|&lt;!-- comentario --&gt;|Comentario HTML. El navegador lo ignora.">&lt;!-- En el head de tu HTML --&gt;</span>
+<span class="tag" data-tip="tag|&lt;link&gt;|Enlaza el archivo CSS externo con esta página HTML.">&lt;link</span> <span class="atr" data-tip="atr|rel|Tipo de relación con el archivo enlazado. 'stylesheet' indica que es un archivo de estilos CSS.">rel</span>=<span class="val" data-tip="val|&quot;stylesheet&quot;|Valor que indica que el archivo enlazado es una hoja de estilos CSS.">"stylesheet"</span> <span class="atr" data-tip="atr|href|Ruta al archivo CSS externo. Puede ser relativa como 'estilos.css' o 'css/main.css'.">href</span>=<span class="val" data-tip="val|&quot;estilos.css&quot;|Nombre o ruta del archivo CSS. Debe existir en tu proyecto con ese nombre exacto.">"estilos.css"</span><span class="tag" data-tip="tag|/&gt;|Cierre de la etiqueta link.">/&gt;</span>
+
+<span class="com" data-tip="com|/* comentario CSS */|Comentario en CSS. Se usa /* para abrir y */ para cerrar. El navegador lo ignora.">/* En el archivo estilos.css */</span>
+<span class="sel" data-tip="sel|h1|Selector CSS. Indica a qué elemento HTML se aplican los estilos. 'h1' aplica los estilos a todos los &lt;h1&gt; de la página.">h1</span> {
+  <span class="prp" data-tip="prp|color|Propiedad CSS que cambia el color del texto. Acepta nombres en inglés, códigos HEX (#ff0000), RGB o HSL.">color</span>: <span class="val" data-tip="val|red|Valor de la propiedad color. 'red' es rojo. Otros: blue, green, white, black, orange, #e94560...">red</span>;
+  <span class="prp" data-tip="prp|font-size|Cambia el tamaño del texto. Puede usar: px (píxeles), rem (relativo al root), em (relativo al padre), % (porcentaje).">font-size</span>: <span class="val" data-tip="val|2rem|1rem = tamaño de fuente del elemento raíz (normalmente 16px). 2rem = 32px. Preferible a px porque se adapta a la configuración del usuario.">2rem</span>;
+}</pre>
+    <div class="nota"><strong>Ventaja:</strong> Un solo archivo CSS puede aplicarse a TODAS las páginas del proyecto. Si cambias un color, cambia en todas las páginas a la vez.</div>
+    <br>
+
+    <strong>2 — CSS INTERNO</strong><br><br>
+    <pre><span class="tag" data-tip="tag|&lt;head&gt;|El CSS interno se pone dentro del head, en una etiqueta &lt;style&gt;.">&lt;head&gt;</span>
+  <span class="tag" data-tip="tag|&lt;style&gt;|Etiqueta que contiene CSS interno. Todo el CSS escrito aquí solo afecta a esta página HTML concreta. Si tienes 10 páginas, tendrías que repetirlo en las 10.">&lt;style&gt;</span>
+    <span class="sel" data-tip="sel|p|Selector que apunta a todos los &lt;p&gt; (párrafos) de la página. Los estilos dentro de las llaves se aplican a todos ellos.">p</span> {
+      <span class="prp" data-tip="prp|color|Cambia el color del texto del elemento seleccionado.">color</span>: <span class="val" data-tip="val|navy|Color azul marino. En CSS puedes usar nombres de colores en inglés. Hay 140 nombres predefinidos: navy, tomato, coral, teal, etc.">navy</span>;
+      <span class="prp" data-tip="prp|font-size|Tamaño de la fuente. 16px es el tamaño por defecto del navegador.">font-size</span>: <span class="val" data-tip="val|16px|Píxeles. 1px = 1 píxel de pantalla. Tamaños típicos: 12-14px para notas, 16px para texto normal, 18-24px para subtítulos.">16px</span>;
+    }
+  <span class="tag" data-tip="tag|&lt;/style&gt;|Cierra la etiqueta style. Todo el CSS debe estar entre &lt;style&gt; y &lt;/style&gt;.">&lt;/style&gt;</span>
+<span class="tag" data-tip="tag|&lt;/head&gt;|Cierra el head.">&lt;/head&gt;</span></pre>
+    <div class="nota"><strong>Desventaja:</strong> Solo afecta a ese archivo HTML. Si tienes varias páginas hay que copiar y pegar los estilos en cada una.</div>
+    <br>
+
+    <strong>3 — CSS INLINE (en línea)</strong><br><br>
+    <pre><span class="tag" data-tip="tag|&lt;p&gt;|Párrafo con CSS directamente dentro con el atributo style.">&lt;p</span> <span class="atr" data-tip="atr|style|Permite escribir CSS directamente dentro de una etiqueta HTML. Los estilos solo afectan a ESA etiqueta concreta.">style</span>=<span class="val" data-tip="val|&quot;color: green; font-weight: bold;&quot;|Reglas CSS separadas por punto y coma. Aquí: color verde y texto en negrita. Sintaxis: 'propiedad: valor; propiedad: valor;'">"color: green; font-weight: bold;"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura de la etiqueta.">&gt;</span>
+  Este párrafo es verde y negrita.
+<span class="tag" data-tip="tag|&lt;/p&gt;|Cierra el párrafo.">&lt;/p&gt;</span></pre>
+    <div class="nota"><strong>Evitar siempre que sea posible.</strong> Mezcla contenido y diseño. Si quieres cambiar el color de 100 párrafos, tendrías que editar 100 etiquetas una a una.</div>
+  </section>
+
+
+  <!-- 3. HEADINGS -->
+  <section id="headings" class="seccion">
+    <h2>3. Títulos H1 a H6</h2>
+    <p class="descripcion">
+      Los headings son etiquetas de título. H1 es el más grande e importante. H6 es el más pequeño.
+      Solo debe haber UN h1 por página.
+    </p>
+    <pre><span class="tag" data-tip="tag|&lt;h1&gt;|Título de nivel 1. El más importante y grande. Usar solo UNO por página. Los buscadores como Google le dan mucho peso para el SEO (posicionamiento).">&lt;h1&gt;</span><span class="txt" data-tip="txt|Título principal|Texto del h1. Suele ser el nombre de la página o el asunto principal.">Título principal</span><span class="tag" data-tip="tag|&lt;/h1&gt;|Cierra el título h1.">&lt;/h1&gt;</span>
+<span class="tag" data-tip="tag|&lt;h2&gt;|Título de nivel 2. Para las secciones principales de la página. Puede haber varios h2.">&lt;h2&gt;</span><span class="txt" data-tip="txt|Título de sección|Texto del subtítulo de sección.">Título de sección</span><span class="tag" data-tip="tag|&lt;/h2&gt;|Cierra el título h2.">&lt;/h2&gt;</span>
+<span class="tag" data-tip="tag|&lt;h3&gt;|Título de nivel 3. Para subsecciones dentro de una sección h2. Jerarquía: h1 &gt; h2 &gt; h3 &gt; h4 &gt; h5 &gt; h6.">&lt;h3&gt;</span><span class="txt" data-tip="txt|Título de subsección|Texto del subtítulo de subsección.">Título de subsección</span><span class="tag" data-tip="tag|&lt;/h3&gt;|Cierra el título h3.">&lt;/h3&gt;</span>
+<span class="tag" data-tip="tag|&lt;h4&gt;|Título de nivel 4. Buena práctica: no saltar niveles (no usar h4 sin tener h3 antes).">&lt;h4&gt;</span><span class="txt" data-tip="txt|Título h4|Título de cuarto nivel.">Título h4</span><span class="tag" data-tip="tag|&lt;/h4&gt;|Cierra el título h4.">&lt;/h4&gt;</span>
+<span class="tag" data-tip="tag|&lt;h5&gt;|Título de nivel 5. Raramente necesario. Si necesitas tantos niveles considera reorganizar el contenido.">&lt;h5&gt;</span><span class="txt" data-tip="txt|Título h5|Título de quinto nivel.">Título h5</span><span class="tag" data-tip="tag|&lt;/h5&gt;|Cierra el título h5.">&lt;/h5&gt;</span>
+<span class="tag" data-tip="tag|&lt;h6&gt;|Título de nivel 6. El más pequeño. En la práctica se usa muy poco.">&lt;h6&gt;</span><span class="txt" data-tip="txt|Título h6|Título de sexto nivel, el más pequeño.">Título h6</span><span class="tag" data-tip="tag|&lt;/h6&gt;|Cierra el título h6.">&lt;/h6&gt;</span></pre>
+
+    <div class="resultado">
+      <p class="resultado-label">Resultado en el navegador</p>
+      <h1 style="font-size:2em;margin:4px 0">H1 — Título principal</h1>
+      <h2 style="font-size:1.6em;margin:4px 0;color:inherit">H2 — Título de sección</h2>
+      <h3 style="font-size:1.3em;margin:4px 0">H3 — Título de subsección</h3>
+      <h4 style="font-size:1.1em;margin:4px 0">H4 — Título pequeño</h4>
+      <h5 style="font-size:.95em;margin:4px 0">H5 — Más pequeño</h5>
+      <h6 style="font-size:.85em;margin:4px 0">H6 — El más pequeño</h6>
+    </div>
+  </section>
+
+
+  <!-- 4. PÁRRAFOS Y TEXTO -->
+  <section id="parrafos" class="seccion">
+    <h2>4. Párrafos y formato de texto</h2>
+    <p class="descripcion">
+      &lt;p&gt; es el párrafo básico. Hay etiquetas para dar formato al texto sin usar CSS.
+    </p>
+    <pre><span class="tag" data-tip="tag|&lt;p&gt;|Párrafo. Agrupa un bloque de texto. El navegador añade margen automático arriba y abajo para separar párrafos. Es una etiqueta de bloque (ocupa toda la línea).">&lt;p&gt;</span><span class="txt" data-tip="txt|Esto es un párrafo normal.|Contenido visible del párrafo.">Esto es un párrafo normal.</span><span class="tag" data-tip="tag|&lt;/p&gt;|Cierra el párrafo. Obligatorio.">&lt;/p&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;strong&gt;|Texto en negrita con significado semántico: indica que ese texto es MUY IMPORTANTE. El navegador lo muestra en negrita. &lt;strong&gt; también lo indica a los lectores de pantalla.">&lt;strong&gt;</span>Negrita — texto importante<span class="tag" data-tip="tag|&lt;/strong&gt;|Cierra la negrita semántica.">&lt;/strong&gt;</span>
+<span class="tag" data-tip="tag|&lt;em&gt;|Texto en cursiva con énfasis. A diferencia de &lt;i&gt;, &lt;em&gt; indica importancia a los lectores de pantalla y buscadores.">&lt;em&gt;</span>Cursiva — texto con énfasis<span class="tag" data-tip="tag|&lt;/em&gt;|Cierra la cursiva con énfasis.">&lt;/em&gt;</span>
+<span class="tag" data-tip="tag|&lt;u&gt;|Subraya el texto. Usar con cuidado porque el subrayado normalmente indica un enlace y puede confundir al usuario.">&lt;u&gt;</span>Texto subrayado<span class="tag" data-tip="tag|&lt;/u&gt;|Cierra el subrayado.">&lt;/u&gt;</span>
+<span class="tag" data-tip="tag|&lt;s&gt;|Texto tachado. Indica que algo ya no es válido. Útil para mostrar precios rebajados o elementos eliminados.">&lt;s&gt;</span>Texto tachado<span class="tag" data-tip="tag|&lt;/s&gt;|Cierra el tachado.">&lt;/s&gt;</span>
+<span class="tag" data-tip="tag|&lt;mark&gt;|Resalta el texto con fondo amarillo, como un marcador fluorescente. Indica que el texto es relevante en ese contexto.">&lt;mark&gt;</span>Texto resaltado<span class="tag" data-tip="tag|&lt;/mark&gt;|Cierra el resaltado.">&lt;/mark&gt;</span>
+<span class="tag" data-tip="tag|&lt;small&gt;|Hace el texto más pequeño que el normal. Útil para notas al pie, avisos legales, derechos de autor, etc.">&lt;small&gt;</span>Texto pequeño<span class="tag" data-tip="tag|&lt;/small&gt;|Cierra el texto pequeño.">&lt;/small&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;br/&gt;|Salto de línea. Fuerza que el texto continúe en la línea siguiente sin crear un nuevo párrafo. No tiene etiqueta de cierre. No abuses de él: usa el margen CSS para espaciar.">&lt;br/&gt;</span>   <span class="com" data-tip="com|&lt;!-- --&gt;|Comentario HTML.">&lt;!-- Salto de línea --&gt;</span>
+<span class="tag" data-tip="tag|&lt;hr/&gt;|Línea horizontal. Crea una línea separadora entre secciones de contenido. No tiene etiqueta de cierre. Con CSS se puede cambiar su color y grosor.">&lt;hr/&gt;</span>   <span class="com" data-tip="com|&lt;!-- --&gt;|Comentario HTML.">&lt;!-- Línea horizontal separadora --&gt;</span></pre>
+
+    <div class="resultado">
+      <p class="resultado-label">Resultado en el navegador</p>
+      <p style="margin-bottom:8px">Esto es un párrafo normal.</p>
+      <p><strong>Negrita</strong> &nbsp;|&nbsp; <em>Cursiva</em> &nbsp;|&nbsp; <u>Subrayado</u> &nbsp;|&nbsp; <s>Tachado</s> &nbsp;|&nbsp; <mark>Resaltado</mark> &nbsp;|&nbsp; <small>Pequeño</small></p>
+      <hr style="margin:12px 0"/>
+      <p style="font-size:12px;color:#999">La línea de arriba es un &lt;hr&gt;</p>
+    </div>
+  </section>
+
+
+  <!-- 5. ENLACES -->
+  <section id="enlaces" class="seccion">
+    <h2>5. Enlaces — &lt;a&gt;</h2>
+    <p class="descripcion">
+      La etiqueta &lt;a&gt; (anchor = ancla) crea un enlace clicable.
+      href indica a dónde va. target="_blank" lo abre en nueva pestaña.
+    </p>
+    <pre><span class="com" data-tip="com|&lt;!-- --&gt;|Comentario HTML.">&lt;!-- Enlace externo --&gt;</span>
+<span class="tag" data-tip="tag|&lt;a&gt;|Etiqueta de enlace (anchor). Crea un hipervínculo clicable. Es una etiqueta en línea: no ocupa toda la línea sino solo el espacio del texto.">&lt;a</span> <span class="atr" data-tip="atr|href|Atributo obligatorio del enlace. Contiene la URL o ruta a dónde llevará el enlace al hacer clic. Puede ser URL completa, ruta relativa o ancla interna (#id).">href</span>=<span class="val" data-tip="val|&quot;https://www.google.com&quot;|URL completa del destino. Siempre empieza con https:// para páginas externas.">"https://www.google.com"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura de la etiqueta &lt;a&gt;.">&gt;</span>Ir a Google<span class="tag" data-tip="tag|&lt;/a&gt;|Cierra el enlace. El texto entre &lt;a&gt; y &lt;/a&gt; es el área clicable.">&lt;/a&gt;</span>
+
+<span class="com" data-tip="com|&lt;!-- --&gt;|Comentario HTML.">&lt;!-- Enlace en nueva pestaña --&gt;</span>
+<span class="tag" data-tip="tag|&lt;a&gt;|Etiqueta de enlace.">&lt;a</span> <span class="atr" data-tip="atr|href|Ruta o URL del destino.">href</span>=<span class="val" data-tip="val|&quot;https://www.google.com&quot;|URL de destino del enlace.">"https://www.google.com"</span> <span class="atr" data-tip="atr|target|Controla dónde se abre el enlace. Valores: '_blank' (nueva pestaña), '_self' (misma pestaña, por defecto), '_parent', '_top'.">target</span>=<span class="val" data-tip="val|&quot;_blank&quot;|Abre el enlace en una nueva pestaña o ventana del navegador. Muy útil para enlaces externos para no sacar al usuario de tu página.">"_blank"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Abrir en nueva pestaña<span class="tag" data-tip="tag|&lt;/a&gt;|Cierra el enlace.">&lt;/a&gt;</span>
+
+<span class="com" data-tip="com|&lt;!-- --&gt;|Comentario HTML.">&lt;!-- Enlace a página del mismo proyecto --&gt;</span>
+<span class="tag" data-tip="tag|&lt;a&gt;|Etiqueta de enlace.">&lt;a</span> <span class="atr" data-tip="atr|href|Para archivos del mismo proyecto se usa una ruta relativa (sin https://).">href</span>=<span class="val" data-tip="val|&quot;contacto.html&quot;|Ruta relativa a otro archivo HTML del mismo proyecto. Si está en una carpeta: 'paginas/contacto.html'.">"contacto.html"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Ir a contacto<span class="tag" data-tip="tag|&lt;/a&gt;|Cierra el enlace.">&lt;/a&gt;</span>
+
+<span class="com" data-tip="com|&lt;!-- --&gt;|Comentario HTML.">&lt;!-- Enlace a sección de la misma página --&gt;</span>
+<span class="tag" data-tip="tag|&lt;a&gt;|Etiqueta de enlace.">&lt;a</span> <span class="atr" data-tip="atr|href|Cuando el valor empieza por # es un enlace interno (ancla). Lleva al elemento con ese id en la misma página. Muy usado en menús de navegación.">href</span>=<span class="val" data-tip="val|&quot;#tablas&quot;|El # indica enlace interno. 'tablas' es el id del elemento al que quieres ir. El elemento destino debe tener id=&quot;tablas&quot;.">"#tablas"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Ir a la sección Tablas<span class="tag" data-tip="tag|&lt;/a&gt;|Cierra el enlace.">&lt;/a&gt;</span>
+
+<span class="com" data-tip="com|&lt;!-- --&gt;|Comentario HTML.">&lt;!-- Enlace para enviar email --&gt;</span>
+<span class="tag" data-tip="tag|&lt;a&gt;|Etiqueta de enlace.">&lt;a</span> <span class="atr" data-tip="atr|href|Con el protocolo 'mailto:' el enlace abre el cliente de correo del usuario con el email ya rellenado.">href</span>=<span class="val" data-tip="val|&quot;mailto:alumno@ejemplo.com&quot;|Al hacer clic abre el programa de correo con la dirección ya puesta en el campo 'Para'. Puedes añadir asunto: 'mailto:email@x.com?subject=Hola'.">"mailto:alumno@ejemplo.com"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Enviar email<span class="tag" data-tip="tag|&lt;/a&gt;|Cierra el enlace.">&lt;/a&gt;</span></pre>
+
+    <div class="resultado">
+      <p class="resultado-label">Resultado en el navegador</p>
+      <p>
+        <a href="https://www.google.com" target="_blank" style="color:#e94560;margin-right:20px">Ir a Google</a>
+        <a href="#tablas" style="color:#1a1a2e;margin-right:20px">Ir a Tablas</a>
+        <a href="mailto:alumno@ejemplo.com" style="color:#555">Enviar email</a>
+      </p>
+    </div>
+  </section>
+
+
+  <!-- 6. BOTONES -->
+  <section id="botones" class="seccion">
+    <h2>6. Botones — &lt;button&gt;</h2>
+    <p class="descripcion">
+      &lt;button&gt; crea un botón clicable. Con CSS se puede hacer de cualquier forma y color.
+    </p>
+    <pre><span class="tag" data-tip="tag|&lt;button&gt;|Crea un botón interactivo. Por defecto tiene un estilo básico del navegador. Usa CSS para personalizarlo.">&lt;button&gt;</span>Haz clic aquí<span class="tag" data-tip="tag|&lt;/button&gt;|Cierra el botón. Todo lo que esté entre &lt;button&gt; y &lt;/button&gt; aparece dentro del botón.">&lt;/button&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;button&gt;|Botón con acción JavaScript.">&lt;button</span> <span class="atr" data-tip="atr|onclick|Atributo de evento JavaScript. El código dentro de las comillas se ejecuta cuando el usuario hace clic. Otros eventos: onmouseover, onkeydown, onfocus...">onclick</span>=<span class="val" data-tip="val|&quot;alert('¡Hola!')&quot;|Código JavaScript que se ejecuta al hacer clic. alert() muestra una ventana emergente con el mensaje indicado. Las comillas internas van con comilla simple.">"alert('¡Hola!')"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura del botón.">&gt;</span>Mostrar alerta<span class="tag" data-tip="tag|&lt;/button&gt;|Cierra el botón.">&lt;/button&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;button&gt;|Botón desactivado.">&lt;button</span> <span class="atr" data-tip="atr|disabled|Atributo booleano (no necesita valor). Desactiva el botón: el usuario no puede hacer clic. Se muestra en gris por defecto. Útil para botones de envío antes de validar un formulario.">disabled</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>No se puede clicar<span class="tag" data-tip="tag|&lt;/button&gt;|Cierra el botón.">&lt;/button&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;button&gt;|Botón con estilos aplicados directamente.">&lt;button</span> <span class="atr" data-tip="atr|style|CSS aplicado directamente en el elemento.">style</span>=<span class="val" data-tip="val|&quot;background:navy; color:white; padding:10px 20px; border:none; border-radius:6px;&quot;|Múltiples propiedades CSS: fondo azul marino, texto blanco, relleno interior, sin borde, esquinas redondeadas.">"background:navy; color:white; padding:10px 20px; border:none; border-radius:6px;"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>
+  Botón azul
+<span class="tag" data-tip="tag|&lt;/button&gt;|Cierra el botón.">&lt;/button&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;button&gt;|Botón de tipo submit.">&lt;button</span> <span class="atr" data-tip="atr|type|Define el comportamiento del botón en un formulario. Valores: 'submit' (envía el formulario), 'reset' (limpia los campos), 'button' (no hace nada, para usar con JS).">type</span>=<span class="val" data-tip="val|&quot;submit&quot;|Al hacer clic en este botón se envía el formulario al servidor. Es el tipo por defecto si no se especifica.">"submit"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Enviar formulario<span class="tag" data-tip="tag|&lt;/button&gt;|Cierra el botón.">&lt;/button&gt;</span></pre>
+
+    <div class="resultado">
+      <p class="resultado-label">Resultado en el navegador (clica los botones)</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+        <button style="padding:9px 18px;border-radius:6px;border:2px solid #1a1a2e;background:#1a1a2e;color:white;cursor:pointer;font-size:14px">Relleno</button>
+        <button style="padding:9px 18px;border-radius:6px;border:2px solid #1a1a2e;background:transparent;color:#1a1a2e;cursor:pointer;font-size:14px">Solo borde</button>
+        <button onclick="alert('¡Botón pulsado!')" style="padding:9px 18px;border-radius:6px;border:none;background:#e94560;color:white;cursor:pointer;font-size:14px">Mostrar alerta</button>
+        <button disabled style="padding:9px 18px;border-radius:6px;border:2px solid #ccc;background:#eee;color:#aaa;font-size:14px;cursor:not-allowed">Desactivado</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 7. IMÁGENES -->
+  <section id="imagenes" class="seccion">
+    <h2>7. Imágenes — &lt;img&gt;</h2>
+    <p class="descripcion">
+      La etiqueta &lt;img&gt; muestra una imagen. No tiene etiqueta de cierre.
+      src indica la ruta. alt es el texto alternativo (accesibilidad + SEO).
+    </p>
+    <pre><span class="tag" data-tip="tag|&lt;img&gt;|Muestra una imagen. Etiqueta vacía (sin contenido ni cierre). La imagen se carga desde src.">&lt;img</span> <span class="atr" data-tip="atr|src|Source (fuente). Ruta o URL de la imagen. Puede ser: ruta local ('foto.jpg', 'img/foto.jpg') o URL externa ('https://...'). Si la ruta es incorrecta se muestra el texto del atributo alt.">src</span>=<span class="val" data-tip="val|&quot;fotos/perro.jpg&quot;|Ruta relativa a la imagen. 'fotos/perro.jpg' significa que hay una carpeta 'fotos' en el mismo directorio que el HTML y dentro está 'perro.jpg'.">"fotos/perro.jpg"</span> <span class="atr" data-tip="atr|alt|Texto alternativo. OBLIGATORIO por accesibilidad. Se muestra si la imagen no carga. Los lectores de pantalla para personas con discapacidad visual lo leen en voz alta.">alt</span>=<span class="val" data-tip="val|&quot;Un perro simpático&quot;|Descripción de la imagen. Se muestra si no puede cargarse. Debe describir brevemente la imagen.">"Un perro simpático"</span><span class="tag" data-tip="tag|/&gt;|Cierre automático de &lt;img&gt;. Esta etiqueta no tiene contenido propio.">/&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;img&gt;|Etiqueta de imagen con tamaño fijo.">&lt;img</span> <span class="atr" data-tip="atr|src|Ruta o URL de la imagen.">src</span>=<span class="val" data-tip="val|&quot;foto.jpg&quot;|Nombre del archivo de imagen en la misma carpeta que el HTML.">"foto.jpg"</span> <span class="atr" data-tip="atr|alt|Texto alternativo.">alt</span>=<span class="val" data-tip="val|&quot;Mi foto&quot;|Descripción de la imagen.">"Mi foto"</span>
+     <span class="atr" data-tip="atr|width|Ancho de la imagen en píxeles. Si solo pones width sin height, el alto se ajusta automáticamente manteniendo las proporciones.">width</span>=<span class="val" data-tip="val|&quot;300&quot;|La imagen se mostrará con 300 píxeles de ancho.">"300"</span> <span class="atr" data-tip="atr|height|Alto de la imagen en píxeles. Si especificas tanto width como height y no coinciden con las proporciones originales, la imagen se deformará.">height</span>=<span class="val" data-tip="val|&quot;200&quot;|La imagen se mostrará con 200 píxeles de alto.">"200"</span><span class="tag" data-tip="tag|/&gt;|Cierre de la etiqueta img.">/&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;img&gt;|Imagen con CSS personalizado aplicado directamente.">&lt;img</span> <span class="atr" data-tip="atr|src|Ruta de la imagen.">src</span>=<span class="val" data-tip="val|&quot;avatar.jpg&quot;|Ruta de la imagen del avatar.">"avatar.jpg"</span> <span class="atr" data-tip="atr|alt|Texto alternativo.">alt</span>=<span class="val" data-tip="val|&quot;Avatar&quot;|Descripción de la imagen.">"Avatar"</span>
+     <span class="atr" data-tip="atr|style|CSS aplicado directamente a esta imagen.">style</span>=<span class="val" data-tip="val|&quot;border-radius: 50%; width: 80px;&quot;|border-radius: 50% hace la imagen completamente redonda (circular). width: 80px establece el ancho en 80 píxeles.">"border-radius: 50%; width: 80px;"</span><span class="tag" data-tip="tag|/&gt;|Cierre de la etiqueta img.">/&gt;</span></pre>
+
+    <div class="resultado">
+      <p class="resultado-label">Resultado en el navegador</p>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-end">
+        <div style="text-align:center">
+          <img src="https://picsum.photos/seed/mnt1/130/95" alt="Normal" style="border-radius:6px;display:block"/>
+          <small style="color:#999;font-size:12px">Normal</small>
+        </div>
+        <div style="text-align:center">
+          <img src="https://picsum.photos/seed/fl2/90/90" alt="Redonda" style="border-radius:50%;display:block"/>
+          <small style="color:#999;font-size:12px">border-radius 50%</small>
+        </div>
+        <div style="text-align:center">
+          <img src="https://picsum.photos/seed/ct3/130/95" alt="Con borde" style="border:3px solid #e94560;border-radius:8px;display:block"/>
+          <small style="color:#999;font-size:12px">Con borde CSS</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 8. LISTAS -->
+  <section id="listas" class="seccion">
+    <h2>8. Listas — &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;</h2>
+    <p class="descripcion">
+      Hay dos tipos: desordenada (puntos) y ordenada (números). Cada elemento es un &lt;li&gt;.
+    </p>
+    <pre><span class="tag" data-tip="tag|&lt;ul&gt;|Unordered List (lista desordenada). Crea una lista con viñetas (puntos). El orden de los elementos NO importa. Ejemplo: lista de ingredientes, características, opciones...">&lt;ul&gt;</span>
+  <span class="tag" data-tip="tag|&lt;li&gt;|List Item (elemento de lista). Cada elemento va dentro de un &lt;li&gt;. Funciona tanto en &lt;ul&gt; como en &lt;ol&gt;.">&lt;li&gt;</span>Manzana<span class="tag" data-tip="tag|&lt;/li&gt;|Cierra el elemento de lista.">&lt;/li&gt;</span>
+  <span class="tag" data-tip="tag|&lt;li&gt;|Segundo elemento de la lista.">&lt;li&gt;</span>Naranja<span class="tag" data-tip="tag|&lt;/li&gt;|Cierra el elemento de lista.">&lt;/li&gt;</span>
+  <span class="tag" data-tip="tag|&lt;li&gt;|Tercer elemento de la lista.">&lt;li&gt;</span>Plátano<span class="tag" data-tip="tag|&lt;/li&gt;|Cierra el elemento de lista.">&lt;/li&gt;</span>
+<span class="tag" data-tip="tag|&lt;/ul&gt;|Cierra la lista desordenada. Todos los &lt;li&gt; deben estar dentro.">&lt;/ul&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;ol&gt;|Ordered List (lista ordenada). Crea una lista con números (1, 2, 3...). El orden de los elementos SÍ importa. Ejemplo: pasos de un tutorial, ranking, instrucciones.">&lt;ol&gt;</span>
+  <span class="tag" data-tip="tag|&lt;li&gt;|Primer paso. El navegador le asigna automáticamente el número 1.">&lt;li&gt;</span>Encender el ordenador<span class="tag" data-tip="tag|&lt;/li&gt;|Cierra el elemento.">&lt;/li&gt;</span>
+  <span class="tag" data-tip="tag|&lt;li&gt;|Segundo paso. Automáticamente numerado como 2.">&lt;li&gt;</span>Abrir el navegador<span class="tag" data-tip="tag|&lt;/li&gt;|Cierra el elemento.">&lt;/li&gt;</span>
+  <span class="tag" data-tip="tag|&lt;li&gt;|Tercer paso. Automáticamente numerado como 3.">&lt;li&gt;</span>Ir a Google<span class="tag" data-tip="tag|&lt;/li&gt;|Cierra el elemento.">&lt;/li&gt;</span>
+<span class="tag" data-tip="tag|&lt;/ol&gt;|Cierra la lista ordenada.">&lt;/ol&gt;</span>
+
+<span class="com" data-tip="com|&lt;!-- --&gt;|Comentario HTML.">&lt;!-- Lista anidada (lista dentro de lista) --&gt;</span>
+<span class="tag" data-tip="tag|&lt;ul&gt;|Lista exterior desordenada.">&lt;ul&gt;</span>
+  <span class="tag" data-tip="tag|&lt;li&gt;|Elemento que contiene texto Y una lista interior.">&lt;li&gt;</span>Frutas
+    <span class="tag" data-tip="tag|&lt;ul&gt;|Lista interior. Las listas se pueden anidar. El navegador cambia automáticamente el estilo de la viñeta para diferenciar niveles.">&lt;ul&gt;</span>
+      <span class="tag" data-tip="tag|&lt;li&gt;|Subelemento de la lista anidada.">&lt;li&gt;</span>Manzana<span class="tag" data-tip="tag|&lt;/li&gt;|Cierra el subelemento.">&lt;/li&gt;</span>
+      <span class="tag" data-tip="tag|&lt;li&gt;|Subelemento de la lista anidada.">&lt;li&gt;</span>Pera<span class="tag" data-tip="tag|&lt;/li&gt;|Cierra el subelemento.">&lt;/li&gt;</span>
+    <span class="tag" data-tip="tag|&lt;/ul&gt;|Cierra la lista interior.">&lt;/ul&gt;</span>
+  <span class="tag" data-tip="tag|&lt;/li&gt;|Cierra el elemento Frutas que contenía la lista anidada.">&lt;/li&gt;</span>
+<span class="tag" data-tip="tag|&lt;/ul&gt;|Cierra la lista exterior.">&lt;/ul&gt;</span></pre>
+
+    <div class="resultado">
+      <p class="resultado-label">Resultado en el navegador</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:14px">
+        <div>
+          <strong>Lista desordenada (ul):</strong>
+          <ul style="margin-top:8px;padding-left:22px"><li>Manzana</li><li>Naranja</li><li>Plátano</li></ul>
+        </div>
+        <div>
+          <strong>Lista ordenada (ol):</strong>
+          <ol style="margin-top:8px;padding-left:22px"><li>Encender el ordenador</li><li>Abrir el navegador</li><li>Ir a Google</li></ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 9. TABLAS -->
+  <section id="tablas" class="seccion">
+    <h2>9. Tablas — &lt;table&gt;</h2>
+    <p class="descripcion">
+      Las tablas muestran datos en filas y columnas.
+      tr = fila | th = celda cabecera | td = celda de datos.
+    </p>
+    <pre><span class="tag" data-tip="tag|&lt;table&gt;|Crea una tabla. Es el contenedor principal. Por defecto no tiene bordes visibles (hay que añadirlos con CSS). Las tablas son para datos tabulares, NO para maquetar el layout de la página.">&lt;table&gt;</span>
+
+  <span class="tag" data-tip="tag|&lt;thead&gt;|Table Head (cabecera de la tabla). Agrupa las filas de encabezado. Opcional pero recomendado para accesibilidad.">&lt;thead&gt;</span>
+    <span class="tag" data-tip="tag|&lt;tr&gt;|Table Row (fila). Cada fila de la tabla necesita un &lt;tr&gt;. Dentro van las celdas &lt;th&gt; o &lt;td&gt;.">&lt;tr&gt;</span>
+      <span class="tag" data-tip="tag|&lt;th&gt;|Table Header (celda de cabecera). Por defecto en negrita y centrada. Mejor que &lt;td&gt; para la primera fila por accesibilidad.">&lt;th&gt;</span>Nombre<span class="tag" data-tip="tag|&lt;/th&gt;|Cierra la celda de cabecera.">&lt;/th&gt;</span>
+      <span class="tag" data-tip="tag|&lt;th&gt;|Segunda celda de cabecera.">&lt;th&gt;</span>Edad<span class="tag" data-tip="tag|&lt;/th&gt;|Cierra la celda de cabecera.">&lt;/th&gt;</span>
+      <span class="tag" data-tip="tag|&lt;th&gt;|Tercera celda de cabecera.">&lt;th&gt;</span>Ciudad<span class="tag" data-tip="tag|&lt;/th&gt;|Cierra la celda de cabecera.">&lt;/th&gt;</span>
+    <span class="tag" data-tip="tag|&lt;/tr&gt;|Cierra la fila de cabeceras.">&lt;/tr&gt;</span>
+  <span class="tag" data-tip="tag|&lt;/thead&gt;|Cierra la cabecera de la tabla.">&lt;/thead&gt;</span>
+
+  <span class="tag" data-tip="tag|&lt;tbody&gt;|Table Body (cuerpo de la tabla). Agrupa las filas de datos. Separar thead y tbody ayuda a la accesibilidad y permite estilizar por separado con CSS.">&lt;tbody&gt;</span>
+    <span class="tag" data-tip="tag|&lt;tr&gt;|Primera fila de datos.">&lt;tr&gt;</span>
+      <span class="tag" data-tip="tag|&lt;td&gt;|Table Data (celda de datos). Contiene el dato a mostrar. A diferencia de &lt;th&gt;, no está en negrita por defecto.">&lt;td&gt;</span>Ana<span class="tag" data-tip="tag|&lt;/td&gt;|Cierra la celda de datos.">&lt;/td&gt;</span>
+      <span class="tag" data-tip="tag|&lt;td&gt;|Segunda celda.">&lt;td&gt;</span>22<span class="tag" data-tip="tag|&lt;/td&gt;|Cierra la celda.">&lt;/td&gt;</span>
+      <span class="tag" data-tip="tag|&lt;td&gt;|Tercera celda.">&lt;td&gt;</span>Madrid<span class="tag" data-tip="tag|&lt;/td&gt;|Cierra la celda.">&lt;/td&gt;</span>
+    <span class="tag" data-tip="tag|&lt;/tr&gt;|Cierra la primera fila de datos.">&lt;/tr&gt;</span>
+  <span class="tag" data-tip="tag|&lt;/tbody&gt;|Cierra el cuerpo de la tabla.">&lt;/tbody&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;/table&gt;|Cierra la tabla.">&lt;/table&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;td&gt;|Celda con colspan.">&lt;td</span> <span class="atr" data-tip="atr|colspan|Hace que una celda ocupe N columnas. Equivale a 'combinar celdas' horizontalmente como en Excel.">colspan</span>=<span class="val" data-tip="val|&quot;2&quot;|Esta celda ocupa 2 columnas en horizontal.">"2"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Ocupa 2 columnas<span class="tag" data-tip="tag|&lt;/td&gt;|Cierra la celda.">&lt;/td&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;td&gt;|Celda con rowspan.">&lt;td</span> <span class="atr" data-tip="atr|rowspan|Hace que una celda ocupe N filas. Equivale a 'combinar celdas' verticalmente como en Excel.">rowspan</span>=<span class="val" data-tip="val|&quot;2&quot;|Esta celda ocupa 2 filas en vertical.">"2"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Ocupa 2 filas<span class="tag" data-tip="tag|&lt;/td&gt;|Cierra la celda.">&lt;/td&gt;</span></pre>
+
+    <div class="resultado">
+      <p class="resultado-label">Resultado en el navegador</p>
+      <table class="demo-table">
+        <thead><tr><th>Nombre</th><th>Edad</th><th>Ciudad</th><th>Nota</th></tr></thead>
+        <tbody>
+          <tr><td>Ana</td><td>22</td><td>Madrid</td><td style="color:green;font-weight:bold">9</td></tr>
+          <tr><td>Carlos</td><td>20</td><td>Sevilla</td><td style="color:orange;font-weight:bold">6</td></tr>
+          <tr><td>Pedro</td><td>21</td><td>Valencia</td><td style="color:red;font-weight:bold">4</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="nota"><strong>Truco CSS:</strong> Añade <code>border-collapse: collapse</code> a la tabla para que los bordes no se dupliquen.</div>
+  </section>
+
+
+  <!-- 10. FORMULARIOS -->
+  <section id="formularios" class="seccion">
+    <h2>10. Formularios — &lt;form&gt;, &lt;input&gt;</h2>
+    <p class="descripcion">
+      Los formularios recogen datos del usuario. El atributo type del input define qué tipo de dato acepta.
+    </p>
+    <pre><span class="tag" data-tip="tag|&lt;form&gt;|Contenedor de formulario. Agrupa todos los campos. Al enviar el formulario, los datos de todos los inputs dentro se mandan juntos al servidor.">&lt;form</span> <span class="atr" data-tip="atr|action|URL del servidor que procesará los datos del formulario cuando se envíe. Normalmente apunta a un archivo PHP o una API.">action</span>=<span class="val" data-tip="val|&quot;procesar.php&quot;|Ruta del archivo del servidor que recibirá los datos.">"procesar.php"</span> <span class="atr" data-tip="atr|method|Método HTTP de envío. 'get' añade los datos en la URL (para búsquedas). 'post' los envía ocultos (para datos sensibles como contraseñas).">method</span>=<span class="val" data-tip="val|&quot;post&quot;|Los datos se envían de forma oculta en el cuerpo de la petición HTTP. Usar siempre para formularios con datos sensibles (contraseñas, tarjetas, etc.).">"post"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura del form.">&gt;</span>
+
+  <span class="tag" data-tip="tag|&lt;label&gt;|Etiqueta descriptiva de un campo. Al hacer clic en el label, el foco va al input asociado. Se asocia mediante el atributo 'for' que debe coincidir con el 'id' del input.">&lt;label</span> <span class="atr" data-tip="atr|for|Asocia este label con el input que tenga el mismo id. Al hacer clic en el texto del label, el cursor va automáticamente al campo.">for</span>=<span class="val" data-tip="val|&quot;nombre&quot;|Debe coincidir con el id del input al que pertenece este label.">"nombre"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura del label.">&gt;</span>Nombre:<span class="tag" data-tip="tag|&lt;/label&gt;|Cierra el label.">&lt;/label&gt;</span>
+  <span class="tag" data-tip="tag|&lt;input&gt;|Campo de entrada de datos. No tiene etiqueta de cierre. Su comportamiento cambia totalmente según el valor del atributo 'type'.">&lt;input</span> <span class="atr" data-tip="atr|type|Define el tipo de dato que acepta el campo. Valores más comunes: text, email, password, number, date, checkbox, radio, file, submit, reset.">type</span>=<span class="val" data-tip="val|&quot;text&quot;|Campo de texto libre de una sola línea. Acepta cualquier texto. Otros tipos: email (valida formato email), password (oculta los caracteres), number (solo números), date (selector de fecha).">"text"</span> <span class="atr" data-tip="atr|id|Identificador único del campo. Debe coincidir con el atributo 'for' del label asociado.">id</span>=<span class="val" data-tip="val|&quot;nombre&quot;|El id debe ser único en toda la página. Se usa para asociar el label y para manipular el campo con JavaScript.">"nombre"</span> <span class="atr" data-tip="atr|name|Nombre del campo al enviar el formulario. El servidor recibe los datos como pares nombre=valor.">name</span>=<span class="val" data-tip="val|&quot;nombre&quot;|El name es como se llamará el dato al llegar al servidor. Si pones name='nombre', el servidor recibirá: nombre=ElTextoEscrito.">"nombre"</span> <span class="atr" data-tip="atr|placeholder|Texto de ejemplo dentro del campo cuando está vacío. Desaparece cuando el usuario empieza a escribir. Solo es guía visual.">placeholder</span>=<span class="val" data-tip="val|&quot;Tu nombre&quot;|Texto de ayuda que aparece en el campo vacío. Le indica al usuario qué debe escribir ahí.">"Tu nombre"</span><span class="tag" data-tip="tag|/&gt;|Cierre de la etiqueta input.">/&gt;</span>
+
+  <span class="tag" data-tip="tag|&lt;input&gt;|Campo de email.">&lt;input</span> <span class="atr" data-tip="atr|type|Tipo del campo.">type</span>=<span class="val" data-tip="val|&quot;email&quot;|El navegador valida automáticamente que el formato sea correcto (contiene @ y un dominio). En móviles muestra teclado con @ visible.">"email"</span> <span class="atr" data-tip="atr|name|Nombre del campo para el servidor.">name</span>=<span class="val" data-tip="val|&quot;email&quot;|El servidor recibirá el dato con el nombre 'email'.">"email"</span><span class="tag" data-tip="tag|/&gt;|Cierre del input.">/&gt;</span>
+  <span class="tag" data-tip="tag|&lt;input&gt;|Campo de contraseña.">&lt;input</span> <span class="atr" data-tip="atr|type|Tipo del campo.">type</span>=<span class="val" data-tip="val|&quot;password&quot;|Los caracteres se muestran como puntos o asteriscos para que nadie pueda leerlos por encima del hombro.">"password"</span> <span class="atr" data-tip="atr|name|Nombre del campo.">name</span>=<span class="val" data-tip="val|&quot;pass&quot;|Nombre con el que se enviará la contraseña al servidor.">"pass"</span><span class="tag" data-tip="tag|/&gt;|Cierre del input.">/&gt;</span>
+
+  <span class="com" data-tip="com|&lt;!-- --&gt;|Comentario HTML.">&lt;!-- Checkbox: casilla de verificación --&gt;</span>
+  <span class="tag" data-tip="tag|&lt;input&gt;|Casilla de verificación.">&lt;input</span> <span class="atr" data-tip="atr|type|Tipo del campo.">type</span>=<span class="val" data-tip="val|&quot;checkbox&quot;|Casilla que el usuario puede marcar o desmarcar. Se usa para opciones independientes. Al enviar el formulario solo manda su valor si está marcada.">"checkbox"</span> <span class="atr" data-tip="atr|name|Nombre del campo.">name</span>=<span class="val" data-tip="val|&quot;acepto&quot;|El servidor recibirá 'acepto=on' si la casilla está marcada.">"acepto"</span><span class="tag" data-tip="tag|/&gt;|Cierre del input.">/&gt;</span> Acepto los términos
+
+  <span class="com" data-tip="com|&lt;!-- --&gt;|Comentario HTML.">&lt;!-- Radio: solo se puede elegir UNO del mismo name --&gt;</span>
+  <span class="tag" data-tip="tag|&lt;input&gt;|Botón de radio (opción).">&lt;input</span> <span class="atr" data-tip="atr|type|Tipo del campo.">type</span>=<span class="val" data-tip="val|&quot;radio&quot;|Botón de opción. De todos los radio buttons con el mismo 'name', solo se puede seleccionar UNO a la vez.">"radio"</span> <span class="atr" data-tip="atr|name|Agrupa los radio buttons. Solo se puede seleccionar uno del grupo.">name</span>=<span class="val" data-tip="val|&quot;sexo&quot;|Agrupa los radio buttons. Solo se puede seleccionar uno del grupo 'sexo'.">"sexo"</span> <span class="atr" data-tip="atr|value|Valor que se envía al servidor cuando esta opción está seleccionada.">value</span>=<span class="val" data-tip="val|&quot;h&quot;|Si el usuario selecciona 'Hombre', el servidor recibe sexo=h.">"h"</span><span class="tag" data-tip="tag|/&gt;|Cierre del input.">/&gt;</span> Hombre
+
+  <span class="com" data-tip="com|&lt;!-- --&gt;|Comentario HTML.">&lt;!-- select: lista desplegable --&gt;</span>
+  <span class="tag" data-tip="tag|&lt;select&gt;|Lista desplegable. Muestra una lista de opciones de la que el usuario puede elegir una (o varias con el atributo 'multiple').">&lt;select</span> <span class="atr" data-tip="atr|name|Nombre del campo que se enviará al servidor.">name</span>=<span class="val" data-tip="val|&quot;ciudad&quot;|El servidor recibirá ciudad=valorSeleccionado.">"ciudad"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura del select.">&gt;</span>
+    <span class="tag" data-tip="tag|&lt;option&gt;|Una opción dentro del select. El texto entre las etiquetas es lo que ve el usuario. El atributo value es lo que se envía al servidor.">&lt;option</span> <span class="atr" data-tip="atr|value|Valor que se envía al servidor si el usuario elige esta opción.">value</span>=<span class="val" data-tip="val|&quot;mad&quot;|Si el usuario elige 'Madrid', el servidor recibe ciudad=mad.">"mad"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura de la opción.">&gt;</span>Madrid<span class="tag" data-tip="tag|&lt;/option&gt;|Cierra la opción.">&lt;/option&gt;</span>
+    <span class="tag" data-tip="tag|&lt;option&gt;|Segunda opción del desplegable.">&lt;option</span> <span class="atr" data-tip="atr|value|Valor de esta opción.">value</span>=<span class="val" data-tip="val|&quot;bcn&quot;|Si el usuario elige 'Barcelona', el servidor recibe ciudad=bcn.">"bcn"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Barcelona<span class="tag" data-tip="tag|&lt;/option&gt;|Cierra la opción.">&lt;/option&gt;</span>
+  <span class="tag" data-tip="tag|&lt;/select&gt;|Cierra el select.">&lt;/select&gt;</span>
+
+  <span class="tag" data-tip="tag|&lt;textarea&gt;|Campo de texto de múltiples líneas. A diferencia de &lt;input type='text'&gt;, permite escribir párrafos. El usuario puede redimensionarlo.">&lt;textarea</span> <span class="atr" data-tip="atr|name|Nombre del campo de texto para el servidor.">name</span>=<span class="val" data-tip="val|&quot;mensaje&quot;|El contenido del textarea se enviará con el nombre 'mensaje'.">"mensaje"</span> <span class="atr" data-tip="atr|rows|Número de líneas visibles del textarea. Controla la altura visible.">rows</span>=<span class="val" data-tip="val|&quot;4&quot;|El textarea mostrará 4 líneas de altura por defecto.">"4"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura del textarea.">&gt;</span><span class="tag" data-tip="tag|&lt;/textarea&gt;|Cierra el textarea. A diferencia de input, TIENE cierre.">&lt;/textarea&gt;</span>
+
+  <span class="tag" data-tip="tag|&lt;button&gt;|Botón de envío.">&lt;button</span> <span class="atr" data-tip="atr|type|'submit' envía el formulario al action.">type</span>=<span class="val" data-tip="val|&quot;submit&quot;|Al hacer clic valida los campos y envía los datos al servidor.">"submit"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Enviar<span class="tag" data-tip="tag|&lt;/button&gt;|Cierra el botón.">&lt;/button&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;/form&gt;|Cierra el formulario. Todos los campos deben estar dentro del form para que se envíen juntos.">&lt;/form&gt;</span></pre>
+
+    <div class="resultado">
+      <p class="resultado-label">Resultado en el navegador</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:14px">
+        <div>
+          <label style="font-weight:bold;display:block;margin-bottom:4px">Nombre (text):</label>
+          <input type="text" placeholder="Tu nombre" style="border:1px solid #ccc;border-radius:6px;padding:8px 12px;width:100%;font-size:13px"/>
+        </div>
+        <div>
+          <label style="font-weight:bold;display:block;margin-bottom:4px">Email:</label>
+          <input type="email" placeholder="tu@email.com" style="border:1px solid #ccc;border-radius:6px;padding:8px 12px;width:100%;font-size:13px"/>
+        </div>
+        <div>
+          <label style="font-weight:bold;display:block;margin-bottom:4px">Password:</label>
+          <input type="password" placeholder="••••••••" style="border:1px solid #ccc;border-radius:6px;padding:8px 12px;width:100%;font-size:13px"/>
+        </div>
+        <div>
+          <label style="font-weight:bold;display:block;margin-bottom:4px">Ciudad (select):</label>
+          <select style="border:1px solid #ccc;border-radius:6px;padding:8px 12px;width:100%;font-size:13px">
+            <option>Madrid</option><option>Barcelona</option><option>Sevilla</option>
+          </select>
+        </div>
+        <div style="grid-column:1/-1">
+          <label style="font-weight:bold;display:block;margin-bottom:4px">Mensaje (textarea):</label>
+          <textarea rows="3" placeholder="Escribe aquí..." style="border:1px solid #ccc;border-radius:6px;padding:8px 12px;width:100%;font-size:13px;resize:vertical"></textarea>
+        </div>
+        <div style="grid-column:1/-1;display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+          <label><input type="radio" name="g"/> Hombre</label>
+          <label><input type="radio" name="g"/> Mujer</label>
+          <label><input type="checkbox"/> Acepto</label>
+          <button onclick="alert('¡Formulario enviado!')" style="margin-left:auto;padding:9px 22px;background:#e94560;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 11. CLASES E IDs -->
+  <section id="clases-ids" class="seccion">
+    <h2>11. Clases e IDs</h2>
+    <p class="descripcion">
+      Sirven para identificar elementos y aplicarles CSS. class se puede repetir. id debe ser único.
+    </p>
+    <pre><span class="tag" data-tip="tag|&lt;p&gt;|Párrafo con clase.">&lt;p</span> <span class="atr" data-tip="atr|class|Asigna una o varias clases al elemento. Las clases se usan para aplicar estilos CSS (con el selector .nombre). Pueden repetirse en varios elementos.">class</span>=<span class="val" data-tip="val|&quot;destacado&quot;|Nombre de la clase. Puedes inventarte el nombre que quieras. En CSS se selecciona con .destacado">"destacado"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Párrafo con clase<span class="tag" data-tip="tag|&lt;/p&gt;|Cierra el párrafo.">&lt;/p&gt;</span>
+<span class="tag" data-tip="tag|&lt;p&gt;|Otro párrafo con la misma clase.">&lt;p</span> <span class="atr" data-tip="atr|class|El mismo nombre de clase se puede usar en varios elementos. Todos recibirán los mismos estilos.">class</span>=<span class="val" data-tip="val|&quot;destacado&quot;|El mismo nombre de clase. Los dos párrafos tendrán el mismo estilo CSS.">"destacado"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Otro párrafo con la misma clase<span class="tag" data-tip="tag|&lt;/p&gt;|Cierra el párrafo.">&lt;/p&gt;</span>
+<span class="tag" data-tip="tag|&lt;div&gt;|Div con id único.">&lt;div</span> <span class="atr" data-tip="atr|id|Identificador único. Solo puede haber UN elemento con cada id en toda la página. Se usa para: enlazar secciones (#id), manipular con JavaScript, y aplicar estilos únicos.">id</span>=<span class="val" data-tip="val|&quot;cabecera&quot;|Nombre del identificador único. En CSS se selecciona con #cabecera. En HTML se enlaza con href='#cabecera'. Solo puede haber un elemento con este id.">"cabecera"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura.">&gt;</span>Solo uno con este id<span class="tag" data-tip="tag|&lt;/div&gt;|Cierra el div.">&lt;/div&gt;</span>
+
+<span class="com" data-tip="com|/* */|Comentario CSS.">/* CSS: cómo seleccionarlos */</span>
+
+<span class="sel" data-tip="sel|.destacado|Selector de clase CSS. El punto (.) indica que es una clase. Se aplica a TODOS los elementos que tengan class='destacado'.">.destacado</span> {
+  <span class="prp" data-tip="prp|color|Cambia el color del texto.">color</span>: <span class="val" data-tip="val|red|El texto de todos los .destacado será rojo.">red</span>;
+  <span class="prp" data-tip="prp|font-weight|Grosor de la fuente. Valores: normal (400), bold (700), o números del 100 al 900.">font-weight</span>: <span class="val" data-tip="val|bold|Texto en negrita. Equivale a font-weight: 700.">bold</span>;
+}
+
+<span class="sel" data-tip="sel|#cabecera|Selector de id CSS. La almohadilla (#) indica que es un id. Se aplica ÚNICAMENTE al elemento con id='cabecera'.">#cabecera</span> {
+  <span class="prp" data-tip="prp|background|Color o imagen de fondo del elemento.">background</span>: <span class="val" data-tip="val|navy|Fondo azul marino.">navy</span>;
+  <span class="prp" data-tip="prp|color|Color del texto.">color</span>: <span class="val" data-tip="val|white|Texto blanco.">white</span>;
+}
+
+<span class="com" data-tip="com|/* */|Un elemento puede tener varias clases separadas por espacios.">/* Múltiples clases en un elemento */</span>
+<span class="tag" data-tip="tag|&lt;p&gt;|Párrafo con tres clases a la vez.">&lt;p</span> <span class="atr" data-tip="atr|class|Atributo class con múltiples valores separados por espacio.">class</span>=<span class="val" data-tip="val|&quot;destacado grande azul&quot;|Tres clases separadas por espacios. El elemento recibirá los estilos de .destacado, .grande y .azul a la vez.">"destacado grande azul"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo.">&gt;</span>Tiene tres clases<span class="tag" data-tip="tag|&lt;/p&gt;|Cierra el párrafo.">&lt;/p&gt;</span></pre>
+
+    <div class="resultado">
+      <p class="resultado-label">Resultado en el navegador</p>
+      <p style="color:red;font-weight:bold;margin-bottom:6px">Párrafo con clase .destacado</p>
+      <p style="color:red;font-weight:bold;margin-bottom:12px">Otro párrafo con la misma clase .destacado</p>
+      <div style="background:navy;color:white;padding:10px 16px;border-radius:6px;font-size:14px">Div con id="cabecera"</div>
+    </div>
+  </section>
+
+
+  <!-- 12. DIV Y SPAN -->
+  <section id="div-span" class="seccion">
+    <h2>12. Div y Span — contenedores genéricos</h2>
+    <p class="descripcion">
+      Son etiquetas sin significado propio que sirven para agrupar y dar estilo.
+      div es bloque. span es en línea.
+    </p>
+    <pre><span class="tag" data-tip="tag|&lt;div&gt;|División. Contenedor de bloque genérico. Ocupa toda la anchura disponible y siempre empieza en una nueva línea. El contenedor más usado en HTML.">&lt;div</span> <span class="atr" data-tip="atr|style|CSS aplicado directamente al div.">style</span>=<span class="val" data-tip="val|&quot;background: lightblue; padding: 10px;&quot;|Fondo azul claro y relleno interior de 10px en los cuatro lados.">"background: lightblue; padding: 10px;"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura del div.">&gt;</span>
+  <span class="tag" data-tip="tag|&lt;h3&gt;|Título h3 dentro del div.">&lt;h3&gt;</span>Soy un div<span class="tag" data-tip="tag|&lt;/h3&gt;|Cierra el h3.">&lt;/h3&gt;</span>
+  <span class="tag" data-tip="tag|&lt;p&gt;|Párrafo dentro del div. Los divs pueden contener cualquier elemento HTML.">&lt;p&gt;</span>Puedo contener cualquier cosa.<span class="tag" data-tip="tag|&lt;/p&gt;|Cierra el párrafo.">&lt;/p&gt;</span>
+<span class="tag" data-tip="tag|&lt;/div&gt;|Cierra el div. Todo lo que esté dentro forma una caja.">&lt;/div&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;p&gt;|Párrafo que contiene un span para dar estilo a parte del texto.">&lt;p&gt;</span>
+  El precio es
+  <span class="tag" data-tip="tag|&lt;span&gt;|Contenedor en línea genérico. NO genera salto de línea. Solo ocupa el espacio de su contenido. Perfecto para dar estilo a una palabra dentro de un texto.">&lt;span</span> <span class="atr" data-tip="atr|style|CSS inline aplicado a este span concreto.">style</span>=<span class="val" data-tip="val|&quot;color: red; font-weight: bold;&quot;|El texto del span se mostrará en rojo y negrita, sin afectar al resto del párrafo.">"color: red; font-weight: bold;"</span><span class="tag" data-tip="tag|&gt;|Cierra el ángulo de apertura del span.">&gt;</span>99 euros<span class="tag" data-tip="tag|&lt;/span&gt;|Cierra el span. Solo el texto '99 euros' tendrá el estilo rojo y negrita.">&lt;/span&gt;</span>
+  (oferta limitada).
+<span class="tag" data-tip="tag|&lt;/p&gt;|Cierra el párrafo.">&lt;/p&gt;</span>
+
+<span class="tag" data-tip="tag|&lt;header&gt;|Cabecera de la página o de una sección. Suele contener el logo, título y navegación principal. Equivale a un div pero con significado semántico.">&lt;header&gt;</span> ... <span class="tag" data-tip="tag|&lt;/header&gt;|Cierra la cabecera.">&lt;/header&gt;</span>
+<span class="tag" data-tip="tag|&lt;nav&gt;|Navegación. Contiene los enlaces de navegación principales del sitio. Los buscadores saben que aquí hay un menú.">&lt;nav&gt;</span>    ... <span class="tag" data-tip="tag|&lt;/nav&gt;|Cierra la navegación.">&lt;/nav&gt;</span>
+<span class="tag" data-tip="tag|&lt;main&gt;|Contenido principal de la página. Solo debe haber uno por página. Los buscadores le dan mayor relevancia.">&lt;main&gt;</span>   ... <span class="tag" data-tip="tag|&lt;/main&gt;|Cierra el contenido principal.">&lt;/main&gt;</span>
+<span class="tag" data-tip="tag|&lt;section&gt;|Sección temática de contenido. Agrupa contenido relacionado. Suele tener un título (h2, h3...).">&lt;section&gt;</span>... <span class="tag" data-tip="tag|&lt;/section&gt;|Cierra la sección.">&lt;/section&gt;</span>
+<span class="tag" data-tip="tag|&lt;article&gt;|Contenido independiente y reutilizable: una noticia, un post de blog, un comentario. Podría sacarse de la página y tendría sentido por sí solo.">&lt;article&gt;</span>... <span class="tag" data-tip="tag|&lt;/article&gt;|Cierra el artículo.">&lt;/article&gt;</span>
+<span class="tag" data-tip="tag|&lt;footer&gt;|Pie de página. Suele contener: derechos de autor, enlaces legales, contacto, mapa del sitio.">&lt;footer&gt;</span> ... <span class="tag" data-tip="tag|&lt;/footer&gt;|Cierra el pie de página.">&lt;/footer&gt;</span></pre>
+
+    <div class="resultado">
+      <p class="resultado-label">Resultado en el navegador</p>
+      <div style="background:#dbeafe;padding:14px;border-radius:8px;margin-bottom:12px">
+        <h3 style="font-size:1.1em;margin-bottom:4px">Soy un div</h3>
+        <p style="font-size:14px">Puedo contener cualquier cosa dentro.</p>
+      </div>
+      <p style="font-size:15px">El precio es <span style="color:red;font-weight:bold;font-size:1.1em">99 euros</span> (oferta limitada).</p>
+    </div>
+    <div class="nota">
+      <strong>Resumen:</strong>
+      &lt;div&gt; para cajas y secciones de layout.
+      &lt;span&gt; para estilizar una palabra dentro de un texto.
+      Usa etiquetas semánticas cuando puedas: &lt;header&gt;, &lt;main&gt;, &lt;footer&gt;, &lt;section&gt;, &lt;article&gt;, &lt;nav&gt;.
+    </div>
+  </section>
+
+</main>
+
+<footer style="background:#1a1a2e;color:#666;text-align:center;padding:30px;font-size:13px">
+  Guía HTML y CSS — SMR — Haz clic en el código para ver qué hace cada elemento
+</footer>
+
+
+<!-- POPUP INTERACTIVO -->
+<div id="popup-overlay"></div>
+<div id="popup">
+  <div id="popup-header">
+    <span id="popup-token"></span>
+    <span id="popup-type"></span>
+    <button id="popup-close" title="Cerrar">✕</button>
+  </div>
+  <div id="popup-body">
+    <div id="popup-desc"></div>
+    <pre id="popup-example"></pre>
+  </div>
+</div>
+
+<script>
+  const typeLabels = {
+    tag: 'Etiqueta HTML',
+    atr: 'Atributo',
+    val: 'Valor',
+    prp: 'Propiedad CSS',
+    sel: 'Selector CSS',
+    com: 'Comentario',
+    txt: 'Contenido'
+  };
+  const typeClasses = {
+    tag: 'type-tag', atr: 'type-atr', val: 'type-val',
+    prp: 'type-prp', sel: 'type-sel', com: 'type-com', txt: 'type-txt'
+  };
+
+  const popup     = document.getElementById('popup');
+  const overlay   = document.getElementById('popup-overlay');
+  const tokenEl   = document.getElementById('popup-token');
+  const typeEl    = document.getElementById('popup-type');
+  const descEl    = document.getElementById('popup-desc');
+  const exampleEl = document.getElementById('popup-example');
+  const closeBtn  = document.getElementById('popup-close');
+
+  function showPopup(el, e) {
+    const raw = el.getAttribute('data-tip');
+    if (!raw) return;
+    const parts = raw.split('|');
+    const kind  = parts[0] || 'txt';
+    const token = parts[1] || '';
+    const desc  = parts[2] || '';
+    const ex    = parts[3] || '';
+
+    tokenEl.textContent = token;
+    typeEl.textContent  = typeLabels[kind] || kind;
+    typeEl.className    = typeClasses[kind] || 'type-txt';
+    descEl.innerHTML    = desc;
+
+    if (ex) {
+      exampleEl.style.display = 'block';
+      exampleEl.textContent   = ex;
+    } else {
+      exampleEl.style.display = 'none';
+    }
+
+    popup.style.display   = 'block';
+    overlay.style.display = 'block';
+
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const pw = popup.offsetWidth;
+    const ph = popup.offsetHeight;
+
+    let left = e.clientX + 12;
+    let top  = e.clientY + 12;
+    if (left + pw > vw - 16) left = e.clientX - pw - 12;
+    if (top  + ph > vh - 16) top  = e.clientY - ph - 12;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function closePopup() {
+    popup.style.display   = 'none';
+    overlay.style.display = 'none';
+  }
+
+  document.querySelectorAll('[data-tip]').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showPopup(this, e);
+    });
+  });
+
+  closeBtn.addEventListener('click', closePopup);
+  overlay.addEventListener('click', closePopup);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePopup();
+  });
+</script>
+</body>
+</html>
