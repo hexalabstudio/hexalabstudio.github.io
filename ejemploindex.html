@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Huerta — Tienda ecológica</title>
+  <link rel="stylesheet" href="estilos.css"/>
+</head>
+<body>
+
+  <nav>
+    <span class="logo">🌿 La Huerta</span>
+    <ul>
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#beneficios">Beneficios</a></li>
+      <li><a href="#precios">Precios</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <h1>Fresco del campo a tu mesa</h1>
+    <p>Verduras y frutas ecológicas de temporada, cultivadas sin pesticidas y entregadas cada semana.</p>
+    <a href="#contacto" class="btn btn-blanco">Pedir mi cesta</a>
+  </header>
+
+  <main>
+
+    <section id="productos">
+      <h2>Nuestros productos</h2>
+      <p>Seleccionamos cada semana lo mejor de la temporada. Todo viene directo de pequeños agricultores locales.</p>
+      <div class="tarjetas">
+        <div class="tarjeta">
+          <img src="https://picsum.photos/seed/tomates/400/200" alt="Tomates"/>
+          <div class="tarjeta-body">
+            <h3>🍅 Tomates</h3>
+            <p>Variedad de tomate de huerta. Jugosos, dulces y sin tratamientos químicos.</p>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <img src="https://picsum.photos/seed/lechugas/400/200" alt="Verduras"/>
+          <div class="tarjeta-body">
+            <h3>🥬 Verduras de hoja</h3>
+            <p>Lechugas, espinacas y acelgas recogidas el mismo día del reparto.</p>
+          </div>
+        </div>
+        <div class="tarjeta">
+          <img src="https://picsum.photos/seed/frutas/400/200" alt="Frutas"/>
+          <div class="tarjeta-body">
+            <h3>🍎 Frutas de temporada</h3>
+            <p>Manzanas, peras, naranjas... siempre lo que la temporada nos ofrece.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="beneficios">
+      <h2>¿Por qué elegir La Huerta?</h2>
+      <p>Estos son los motivos por los que más de 300 familias ya confían en nosotros:</p>
+      <ul class="lista-bonita">
+        <li>Cultivo 100% ecológico, certificado por el CAAE</li>
+        <li>Entrega semanal directamente en tu puerta</li>
+        <li>Sin intermediarios — el dinero va directo al agricultor</li>
+        <li>Cero plástico — empaquetado en cajas de cartón reciclado</li>
+        <li>Huella de carbono reducida al mínimo</li>
+      </ul>
+    </section>
+
+    <section id="precios">
+      <h2>Planes y precios</h2>
+      <p>Elige el tamaño de cesta que mejor se adapte a tu familia. Sin permanencia ni compromiso.</p>
+      <table>
+        <thead>
+          <tr><th>Plan</th><th>Contenido</th><th>Personas</th><th>Precio / semana</th><th>Envío</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Pequeña</strong></td><td>4–5 productos</td><td>1–2 personas</td><td>12 €</td><td>Gratis</td></tr>
+          <tr><td><strong>Mediana</strong></td><td>7–8 productos</td><td>3–4 personas</td><td>20 €</td><td>Gratis</td></tr>
+          <tr><td><strong>Grande</strong></td><td>10–12 productos</td><td>5+ personas</td><td>30 €</td><td>Gratis</td></tr>
+          <tr><td><strong>Personalizada</strong></td><td>Tú eliges</td><td>Cualquiera</td><td>Consultar</td><td>Gratis</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="contacto">
+      <h2>Pide tu primera cesta</h2>
+      <p>Rellena el formulario y te contactamos en menos de 24 horas para preparar tu primer pedido.</p>
+      <div class="formulario">
+        <div class="fila-dos">
+          <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre"/>
+          </div>
+          <div class="campo">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="tu@email.com"/>
+          </div>
+        </div>
+        <div class="fila-dos">
+          <div class="campo">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="600 000 000"/>
+          </div>
+          <div class="campo">
+            <label for="plan">Plan que te interesa</label>
+            <select id="plan" name="plan">
+              <option value="">— Elige un plan —</option>
+              <option value="pequena">Pequeña (12 €/semana)</option>
+              <option value="mediana">Mediana (20 €/semana)</option>
+              <option value="grande">Grande (30 €/semana)</option>
+              <option value="personalizada">Personalizada</option>
+            </select>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="mensaje">Mensaje (opcional)</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos algo: alergias, preferencias, dirección de entrega..."></textarea>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+          <label style="font-size:14px;display:flex;align-items:center;gap:8px;">
+            <input type="checkbox" name="acepto"/> Acepto recibir información sobre pedidos y novedades
+          </label>
+          <button class="btn btn-verde" style="margin-left:auto;" onclick="alert('¡Gracias! Te contactaremos pronto 🌿')">Enviar pedido</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>⬇ Así está hecho: HTML y CSS separados</h2>
+      <p>Esta página tiene dos archivos. El HTML tiene el contenido y el CSS tiene los estilos. El HTML enlaza al CSS con una sola línea en el &lt;head&gt;.</p>
+      <div style="background:white;border-radius:10px;padding:20px;font-size:14px;border-left:4px solid #52b788;box-shadow:0 2px 12px rgba(0,0,0,.06)">
+        📁 Carpeta del proyecto<br>
+        &nbsp;&nbsp;&nbsp;├── <strong>index.html</strong> &nbsp;← la guía<br>
+        &nbsp;&nbsp;&nbsp;├── <strong>ejemploindex.html</strong> &nbsp;← esta página<br>
+        &nbsp;&nbsp;&nbsp;└── <strong>estilos.css</strong> &nbsp;← los estilos de esta página
+      </div>
+      <div class="codigo-seccion">
+        <div class="codigo-tabs">
+          <button class="codigo-tab activo" onclick="mostrarTab('html', this)">📄 ejemploindex.html</button>
+          <button class="codigo-tab" onclick="mostrarTab('css', this)">🎨 estilos.css</button>
+        </div>
+        <div id="tab-html" class="codigo-contenido activo">
+          <pre><span class="c-com">&lt;!-- ejemploindex.html --&gt;</span>
+<span class="c-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="c-tag">&lt;html</span> <span class="c-atr">lang</span>=<span class="c-val">"es"</span><span class="c-tag">&gt;</span>
+<span class="c-tag">&lt;head&gt;</span>
+  <span class="c-tag">&lt;meta</span> <span class="c-atr">charset</span>=<span class="c-val">"UTF-8"</span><span class="c-tag">/&gt;</span>
+  <span class="c-tag">&lt;title&gt;</span><span class="c-txt">La Huerta</span><span class="c-tag">&lt;/title&gt;</span>
+  <span class="c-com">&lt;!-- ★ Aquí se enlaza el CSS externo ★ --&gt;</span>
+  <span class="c-tag">&lt;link</span> <span class="c-atr">rel</span>=<span class="c-val">"stylesheet"</span> <span class="c-atr">href</span>=<span class="c-val">"estilos.css"</span><span class="c-tag">/&gt;</span>
+<span class="c-tag">&lt;/head&gt;</span>
+<span class="c-tag">&lt;body&gt;</span>
+
+  <span class="c-tag">&lt;nav&gt;</span>
+    <span class="c-tag">&lt;span</span> <span class="c-atr">class</span>=<span class="c-val">"logo"</span><span class="c-tag">&gt;</span><span class="c-txt">🌿 La Huerta</span><span class="c-tag">&lt;/span&gt;</span>
+    <span class="c-tag">&lt;ul&gt;</span>
+      <span class="c-tag">&lt;li&gt;&lt;a</span> <span class="c-atr">href</span>=<span class="c-val">"#productos"</span><span class="c-tag">&gt;</span><span class="c-txt">Productos</span><span class="c-tag">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="c-tag">&lt;li&gt;&lt;a</span> <span class="c-atr">href</span>=<span class="c-val">"#contacto"</span><span class="c-tag">&gt;</span><span class="c-txt">Contacto</span><span class="c-tag">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="c-tag">&lt;/ul&gt;</span>
+  <span class="c-tag">&lt;/nav&gt;</span>
+
+  <span class="c-tag">&lt;header&gt;</span>
+    <span class="c-tag">&lt;h1&gt;</span><span class="c-txt">Fresco del campo a tu mesa</span><span class="c-tag">&lt;/h1&gt;</span>
+    <span class="c-tag">&lt;a</span> <span class="c-atr">href</span>=<span class="c-val">"#contacto"</span> <span class="c-atr">class</span>=<span class="c-val">"btn btn-blanco"</span><span class="c-tag">&gt;</span><span class="c-txt">Pedir mi cesta</span><span class="c-tag">&lt;/a&gt;</span>
+  <span class="c-tag">&lt;/header&gt;</span>
+
+  <span class="c-tag">&lt;main&gt;</span>
+    <span class="c-com">&lt;!-- Tarjetas de productos --&gt;</span>
+    <span class="c-tag">&lt;div</span> <span class="c-atr">class</span>=<span class="c-val">"tarjetas"</span><span class="c-tag">&gt;</span>
+      <span class="c-tag">&lt;div</span> <span class="c-atr">class</span>=<span class="c-val">"tarjeta"</span><span class="c-tag">&gt;</span>
+        <span class="c-tag">&lt;img</span> <span class="c-atr">src</span>=<span class="c-val">"tomates.jpg"</span> <span class="c-atr">alt</span>=<span class="c-val">"Tomates"</span><span class="c-tag">/&gt;</span>
+        <span class="c-tag">&lt;div</span> <span class="c-atr">class</span>=<span class="c-val">"tarjeta-body"</span><span class="c-tag">&gt;</span>
+          <span class="c-tag">&lt;h3&gt;</span><span class="c-txt">Tomates</span><span class="c-tag">&lt;/h3&gt;</span>
+          <span class="c-tag">&lt;p&gt;</span><span class="c-txt">Jugosos, dulces y sin químicos.</span><span class="c-tag">&lt;/p&gt;</span>
+        <span class="c-tag">&lt;/div&gt;</span>
+      <span class="c-tag">&lt;/div&gt;</span>
+    <span class="c-tag">&lt;/div&gt;</span>
+
+    <span class="c-com">&lt;!-- Lista --&gt;</span>
+    <span class="c-tag">&lt;ul</span> <span class="c-atr">class</span>=<span class="c-val">"lista-bonita"</span><span class="c-tag">&gt;</span>
+      <span class="c-tag">&lt;li&gt;</span><span class="c-txt">Cultivo 100% ecológico</span><span class="c-tag">&lt;/li&gt;</span>
+      <span class="c-tag">&lt;li&gt;</span><span class="c-txt">Entrega semanal en tu puerta</span><span class="c-tag">&lt;/li&gt;</span>
+    <span class="c-tag">&lt;/ul&gt;</span>
+
+    <span class="c-com">&lt;!-- Tabla --&gt;</span>
+    <span class="c-tag">&lt;table&gt;</span>
+      <span class="c-tag">&lt;thead&gt;&lt;tr&gt;&lt;th&gt;</span><span class="c-txt">Plan</span><span class="c-tag">&lt;/th&gt;&lt;th&gt;</span><span class="c-txt">Precio</span><span class="c-tag">&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span>
+      <span class="c-tag">&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;</span><span class="c-txt">Pequeña</span><span class="c-tag">&lt;/td&gt;&lt;td&gt;</span><span class="c-txt">12 €</span><span class="c-tag">&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;</span>
+    <span class="c-tag">&lt;/table&gt;</span>
+
+    <span class="c-com">&lt;!-- Formulario --&gt;</span>
+    <span class="c-tag">&lt;div</span> <span class="c-atr">class</span>=<span class="c-val">"formulario"</span><span class="c-tag">&gt;</span>
+      <span class="c-tag">&lt;div</span> <span class="c-atr">class</span>=<span class="c-val">"campo"</span><span class="c-tag">&gt;</span>
+        <span class="c-tag">&lt;label</span> <span class="c-atr">for</span>=<span class="c-val">"nombre"</span><span class="c-tag">&gt;</span><span class="c-txt">Nombre</span><span class="c-tag">&lt;/label&gt;</span>
+        <span class="c-tag">&lt;input</span> <span class="c-atr">type</span>=<span class="c-val">"text"</span> <span class="c-atr">id</span>=<span class="c-val">"nombre"</span><span class="c-tag">/&gt;</span>
+      <span class="c-tag">&lt;/div&gt;</span>
+      <span class="c-tag">&lt;button</span> <span class="c-atr">type</span>=<span class="c-val">"submit"</span> <span class="c-atr">class</span>=<span class="c-val">"btn btn-verde"</span><span class="c-tag">&gt;</span><span class="c-txt">Enviar</span><span class="c-tag">&lt;/button&gt;</span>
+    <span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-tag">&lt;/main&gt;</span>
+
+  <span class="c-tag">&lt;footer&gt;</span>
+    <span class="c-txt">&amp;copy; 2025 La Huerta</span>
+  <span class="c-tag">&lt;/footer&gt;</span>
+<span class="c-tag">&lt;/body&gt;</span>
+<span class="c-tag">&lt;/html&gt;</span></pre>
+        </div>
+        <div id="tab-css" class="codigo-contenido">
+          <pre><span class="c-com">/* estilos.css */</span>
+<span class="c-com">/* Se enlaza en el HTML con:
+   &lt;link rel="stylesheet" href="estilos.css"/&gt; */</span>
+
+<span class="c-sel">:root</span> {
+  <span class="c-prp">--verde</span>:       <span class="c-vl">#2d6a4f</span>;
+  <span class="c-prp">--verde-claro</span>: <span class="c-vl">#52b788</span>;
+  <span class="c-prp">--crema</span>:       <span class="c-vl">#fefae0</span>;
+}
+
+<span class="c-sel">body</span> {
+  <span class="c-prp">font-family</span>: <span class="c-vl">'Georgia', serif</span>;
+  <span class="c-prp">background</span>:  <span class="c-vl">var(--crema)</span>;
+}
+
+<span class="c-sel">nav</span> {
+  <span class="c-prp">background</span>: <span class="c-vl">var(--verde)</span>;
+  <span class="c-prp">position</span>:   <span class="c-vl">sticky</span>;
+  <span class="c-prp">top</span>:        <span class="c-vl">0</span>;
+}
+
+<span class="c-sel">.tarjetas</span> {
+  <span class="c-prp">display</span>:               <span class="c-vl">grid</span>;
+  <span class="c-prp">grid-template-columns</span>: <span class="c-vl">repeat(3, 1fr)</span>;
+  <span class="c-prp">gap</span>:                   <span class="c-vl">20px</span>;
+}
+
+<span class="c-sel">.tarjeta</span> {
+  <span class="c-prp">background</span>:    <span class="c-vl">white</span>;
+  <span class="c-prp">border-radius</span>: <span class="c-vl">12px</span>;
+  <span class="c-prp">box-shadow</span>:    <span class="c-vl">0 2px 12px rgba(0,0,0,.08)</span>;
+  <span class="c-prp">transition</span>:    <span class="c-vl">transform .2s</span>;
+}
+
+<span class="c-sel">.tarjeta:hover</span> {
+  <span class="c-prp">transform</span>: <span class="c-vl">translateY(-4px)</span>;
+}
+
+<span class="c-sel">table</span> { <span class="c-prp">border-collapse</span>: <span class="c-vl">collapse</span>; <span class="c-prp">width</span>: <span class="c-vl">100%</span>; }
+
+<span class="c-sel">thead th</span> {
+  <span class="c-prp">background</span>: <span class="c-vl">var(--verde)</span>;
+  <span class="c-prp">color</span>:      <span class="c-vl">white</span>;
+  <span class="c-prp">padding</span>:    <span class="c-vl">14px 18px</span>;
+}
+
+<span class="c-sel">tbody tr:hover td</span> {
+  <span class="c-prp">background</span>: <span class="c-vl">#f0faf5</span>;
+}
+
+<span class="c-sel">.campo input:focus</span> {
+  <span class="c-prp">border-color</span>: <span class="c-vl">var(--verde-claro)</span>;
+  <span class="c-prp">outline</span>:      <span class="c-vl">none</span>;
+}
+
+<span class="c-sel">footer</span> {
+  <span class="c-prp">background</span>: <span class="c-vl">#3d2b1f</span>;
+  <span class="c-prp">color</span>:      <span class="c-vl">rgba(255,255,255,.7)</span>;
+  <span class="c-prp">padding</span>:    <span class="c-vl">30px</span>;
+}</pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div style="margin-bottom:18px;">
+      <a href="index.html" style="display:inline-block;background:#52b788;color:white;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:15px;font-weight:bold;">
+        ← Volver a la guía HTML y CSS
+      </a>
+    </div>
+    &copy; 2025 La Huerta &mdash; Tienda ecológica &mdash;
+    <a href="#">Aviso legal</a> &mdash; <a href="#contacto">Contacto</a>
+  </footer>
+
+  <script>
+    function mostrarTab(cual, boton) {
+      document.querySelectorAll('.codigo-contenido').forEach(function(el) { el.classList.remove('activo'); });
+      document.querySelectorAll('.codigo-tab').forEach(function(el) { el.classList.remove('activo'); });
+      document.getElementById('tab-' + cual).classList.add('activo');
+      boton.classList.add('activo');
+    }
+  </script>
+
+</body>
+</html>
